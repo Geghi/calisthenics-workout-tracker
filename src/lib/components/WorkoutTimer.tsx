@@ -58,21 +58,6 @@ const WorkoutTimer = forwardRef<WorkoutTimerRef, WorkoutTimerProps>(
       }
     };
 
-    const getSectionIcon = (section: string): string => {
-      switch (section) {
-        case "skill":
-          return "🎯";
-        case "strength":
-          return "💪";
-        case "core":
-          return "🔥";
-        case "conditioning":
-          return "⚡";
-        default:
-          return "🏋️";
-      }
-    };
-
     const currentExercise = getCurrentExercise();
 
     if (state.phase === "idle" && !state.isActive) {

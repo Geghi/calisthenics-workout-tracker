@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Save, Download, Cloud, CloudOff, BookOpen } from "lucide-react";
+import {
+  Save,
+  Download,
+  Cloud,
+  CloudOff,
+  BookOpen,
+  Edit3,
+  Check,
+} from "lucide-react";
 import { useWorkoutPrograms } from "../hooks/useWorkoutPrograms";
 import { useAuth } from "../hooks/useAuth";
 import { useUserPreferences } from "../hooks/useUserPreferences";
 import { notesService, UserNotes } from "../services/notesService";
+import { workoutProgramsService } from "../services/workoutProgramsService";
 import WorkoutSelector from "./WorkoutSelector";
 import ExerciseTable from "./ExerciseTable";
 import WorkoutTimer, { WorkoutTimerRef } from "./WorkoutTimer";
@@ -33,6 +42,7 @@ const CalisthenicsTracker: React.FC = () => {
     "synced" | "syncing" | "offline"
   >("offline");
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
   const workoutTimerRef = useRef<WorkoutTimerRef>(null);
 
   // Set user ID for notes service when user is authenticated
@@ -179,6 +189,49 @@ const CalisthenicsTracker: React.FC = () => {
     link.click();
   };
 
+  const updateExercise = async (
+    exerciseType: "skill" | "strength" | "core" | "conditioning",
+    exerciseIndex: number,
+    updatedExercise: any
+  ) => {
+    if (!selectedProgram || !currentWeekData || !currentDayData) return;
+
+    try {
+      // Create a deep copy of the program data
+      const updatedProgram = { ...selectedProgram };
+      const weekKey = Object.keys(selectedProgram.weeks).find((key) => {
+        if (key.includes("-")) {
+          const [start, end] = key.split("-").map(Number);
+          return selectedWeek >= start && selectedWeek <= end;
+        }
+        return Number(key) === selectedWeek;
+      });
+
+      if (!weekKey) return;
+
+      // Update the exercise in the program data
+      const dayKey = selectedDay.toString();
+      if (updatedProgram.weeks[weekKey].days[dayKey][exerciseType]) {
+        updatedProgram.weeks[weekKey].days[dayKey][exerciseType][
+          exerciseIndex
+        ] = updatedExercise;
+      }
+
+      // Update the program in Firebase
+      await workoutProgramsService.updateProgram(selectedProgram.id, {
+        weeks: updatedProgram.weeks,
+      });
+
+      // Refresh the programs to get the updated data
+      // Note: In a real app, you might want to update the local state directly
+      // For now, we'll rely on the hook to refresh
+      console.log("Exercise updated successfully");
+    } catch (error) {
+      console.error("Failed to update exercise:", error);
+      alert("Failed to save changes. Please try again.");
+    }
+  };
+
   // Helper function to find current week data
   const getCurrentWeekData = () => {
     if (!selectedProgram) return null;
@@ -313,9 +366,31 @@ const CalisthenicsTracker: React.FC = () => {
         {/* Workout Content */}
         {currentDayData && (
           <div className="bg-gray-800/50 rounded-lg p-4 mb-6 backdrop-blur">
-            <h2 className="text-2xl font-bold mb-4 text-center text-orange-400">
-              {currentDayData.name}
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-orange-400">
+                {currentDayData.name}
+              </h2>
+              <button
+                onClick={() => setIsEditMode(!isEditMode)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors ${
+                  isEditMode
+                    ? "bg-green-600 hover:bg-green-700 text-white"
+                    : "bg-blue-600 hover:bg-blue-700 text-white"
+                }`}
+              >
+                {isEditMode ? (
+                  <>
+                    <Check size={16} />
+                    Exit Edit Mode
+                  </>
+                ) : (
+                  <>
+                    <Edit3 size={16} />
+                    Edit Program
+                  </>
+                )}
+              </button>
+            </div>
 
             <ExerciseTable
               exercises={currentDayData.skill || []}
@@ -327,6 +402,10 @@ const CalisthenicsTracker: React.FC = () => {
               onStartExercise={(exerciseId) =>
                 workoutTimerRef.current?.startExercise(exerciseId)
               }
+              onUpdateExercise={(exerciseIndex, updatedExercise) =>
+                updateExercise("skill", exerciseIndex, updatedExercise)
+              }
+              isEditMode={isEditMode}
             />
             <ExerciseTable
               exercises={currentDayData.strength || []}
@@ -338,6 +417,10 @@ const CalisthenicsTracker: React.FC = () => {
               onStartExercise={(exerciseId) =>
                 workoutTimerRef.current?.startExercise(exerciseId)
               }
+              onUpdateExercise={(exerciseIndex, updatedExercise) =>
+                updateExercise("strength", exerciseIndex, updatedExercise)
+              }
+              isEditMode={isEditMode}
             />
             <ExerciseTable
               exercises={currentDayData.core || []}
@@ -349,6 +432,10 @@ const CalisthenicsTracker: React.FC = () => {
               onStartExercise={(exerciseId) =>
                 workoutTimerRef.current?.startExercise(exerciseId)
               }
+              onUpdateExercise={(exerciseIndex, updatedExercise) =>
+                updateExercise("core", exerciseIndex, updatedExercise)
+              }
+              isEditMode={isEditMode}
             />
             <ExerciseTable
               exercises={currentDayData.conditioning || []}
@@ -360,6 +447,10 @@ const CalisthenicsTracker: React.FC = () => {
               onStartExercise={(exerciseId) =>
                 workoutTimerRef.current?.startExercise(exerciseId)
               }
+              onUpdateExercise={(exerciseIndex, updatedExercise) =>
+                updateExercise("conditioning", exerciseIndex, updatedExercise)
+              }
+              isEditMode={isEditMode}
             />
           </div>
         )}

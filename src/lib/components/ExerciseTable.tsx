@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp, Play } from "lucide-react";
+import { ChevronDown, ChevronUp, Play, Edit3, Save, X } from "lucide-react";
 
 interface Exercise {
   name: string;
@@ -21,6 +21,8 @@ interface ExerciseTableProps {
     value: string
   ) => void;
   onStartExercise?: (exerciseId: string) => void;
+  onUpdateExercise?: (exerciseIndex: number, updatedExercise: Exercise) => void;
+  isEditMode?: boolean;
 }
 
 const ExerciseTable: React.FC<ExerciseTableProps> = ({
@@ -31,11 +33,39 @@ const ExerciseTable: React.FC<ExerciseTableProps> = ({
   notes,
   onNoteChange,
   onStartExercise,
+  onUpdateExercise,
+  isEditMode = false,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [expandedExercises, setExpandedExercises] = useState<Set<string>>(
     new Set(exercises.map((_, idx) => `${type}-${idx}`))
   );
+  const [editingExercise, setEditingExercise] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<Exercise | null>(null);
+
+  const startEditing = (exerciseIndex: number) => {
+    setEditingExercise(exerciseIndex);
+    setEditForm({ ...exercises[exerciseIndex] });
+  };
+
+  const cancelEditing = () => {
+    setEditingExercise(null);
+    setEditForm(null);
+  };
+
+  const saveEditing = () => {
+    if (editingExercise !== null && editForm && onUpdateExercise) {
+      onUpdateExercise(editingExercise, editForm);
+      setEditingExercise(null);
+      setEditForm(null);
+    }
+  };
+
+  const updateEditForm = (field: keyof Exercise, value: string | number) => {
+    if (editForm) {
+      setEditForm({ ...editForm, [field]: value });
+    }
+  };
 
   if (!exercises || exercises.length === 0) return null;
 
@@ -95,11 +125,23 @@ const ExerciseTable: React.FC<ExerciseTableProps> = ({
                 {/* Exercise Header */}
                 <div className="p-4 border-b border-gray-700/50">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <h4 className="text-lg font-semibold text-orange-400">
-                        {ex.name}
-                      </h4>
-                      {onStartExercise && (
+                    <div className="flex items-center gap-3 flex-1">
+                      {editingExercise === idx ? (
+                        <input
+                          type="text"
+                          value={editForm?.name || ""}
+                          onChange={(e) =>
+                            updateEditForm("name", e.target.value)
+                          }
+                          className="text-lg font-semibold text-orange-400 bg-gray-900/50 border border-orange-500 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-orange-500 flex-1"
+                          placeholder="Exercise name"
+                        />
+                      ) : (
+                        <h4 className="text-lg font-semibold text-orange-400">
+                          {ex.name}
+                        </h4>
+                      )}
+                      {onStartExercise && !isEditMode && (
                         <button
                           onClick={() => onStartExercise(exerciseId)}
                           className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-xs font-semibold transition-colors flex items-center gap-1"
@@ -108,6 +150,36 @@ const ExerciseTable: React.FC<ExerciseTableProps> = ({
                           <Play size={12} />
                           Start
                         </button>
+                      )}
+                      {isEditMode && editingExercise !== idx && (
+                        <button
+                          onClick={() => startEditing(idx)}
+                          className="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-xs font-semibold transition-colors flex items-center gap-1"
+                          title="Edit exercise"
+                        >
+                          <Edit3 size={12} />
+                          Edit
+                        </button>
+                      )}
+                      {editingExercise === idx && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={saveEditing}
+                            className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-xs font-semibold transition-colors flex items-center gap-1"
+                            title="Save changes"
+                          >
+                            <Save size={12} />
+                            Save
+                          </button>
+                          <button
+                            onClick={cancelEditing}
+                            className="bg-red-600 hover:bg-red-700 px-2 py-1 rounded text-xs font-semibold transition-colors flex items-center gap-1"
+                            title="Cancel editing"
+                          >
+                            <X size={12} />
+                            Cancel
+                          </button>
+                        </div>
                       )}
                     </div>
                     <button
@@ -149,13 +221,51 @@ const ExerciseTable: React.FC<ExerciseTableProps> = ({
                             <span className="text-sm font-medium text-gray-300">
                               Set {setNumber}
                             </span>
-                            <span className="text-sm text-gray-400">
-                              {ex.reps} reps
-                            </span>
-                            {setIndex < ex.sets - 1 && (
-                              <span className="text-xs text-gray-500">
-                                • Rest: {ex.rest}
-                              </span>
+                            {editingExercise === idx ? (
+                              <div className="flex items-center gap-2 flex-1">
+                                <input
+                                  type="text"
+                                  value={editForm?.reps || ""}
+                                  onChange={(e) =>
+                                    updateEditForm("reps", e.target.value)
+                                  }
+                                  className="text-sm text-gray-400 bg-gray-900/50 border border-gray-600 rounded px-2 py-1 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 w-20"
+                                  placeholder="reps"
+                                />
+                                <span className="text-sm text-gray-400">
+                                  reps
+                                </span>
+                                {setIndex < ex.sets - 1 && (
+                                  <>
+                                    <span className="text-xs text-gray-500">
+                                      •
+                                    </span>
+                                    <span className="text-xs text-gray-500">
+                                      Rest:
+                                    </span>
+                                    <input
+                                      type="text"
+                                      value={editForm?.rest || ""}
+                                      onChange={(e) =>
+                                        updateEditForm("rest", e.target.value)
+                                      }
+                                      className="text-xs text-gray-500 bg-gray-900/50 border border-gray-600 rounded px-2 py-1 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 w-16"
+                                      placeholder="rest"
+                                    />
+                                  </>
+                                )}
+                              </div>
+                            ) : (
+                              <>
+                                <span className="text-sm text-gray-400">
+                                  {ex.reps} reps
+                                </span>
+                                {setIndex < ex.sets - 1 && (
+                                  <span className="text-xs text-gray-500">
+                                    • Rest: {ex.rest}
+                                  </span>
+                                )}
+                              </>
                             )}
                           </div>
 
