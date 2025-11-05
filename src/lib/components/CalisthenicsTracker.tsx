@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Save, Download, Cloud, CloudOff, BookOpen } from "lucide-react";
 import { useWorkoutPrograms } from "../hooks/useWorkoutPrograms";
 import { useAuth } from "../hooks/useAuth";
+import { useUserPreferences } from "../hooks/useUserPreferences";
 import { notesService, UserNotes } from "../services/notesService";
 import WorkoutSelector from "./WorkoutSelector";
 import ExerciseTable from "./ExerciseTable";
+import WorkoutTimer, { WorkoutTimerRef } from "./WorkoutTimer";
 
 const CalisthenicsTracker: React.FC = () => {
   const {
@@ -15,13 +17,23 @@ const CalisthenicsTracker: React.FC = () => {
     selectProgram,
   } = useWorkoutPrograms();
   const { user, loading: authLoading, error: authError } = useAuth();
+  const {
+    preferences,
+    loaded: preferencesLoaded,
+    updateProgram,
+    updateWeek,
+    updateDay,
+  } = useUserPreferences();
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [selectedDay, setSelectedDay] = useState(1);
+  const [initialized, setInitialized] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [notes, setNotes] = useState<UserNotes>({});
   const [syncStatus, setSyncStatus] = useState<
     "synced" | "syncing" | "offline"
   >("offline");
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
+  const workoutTimerRef = useRef<WorkoutTimerRef>(null);
 
   // Set user ID for notes service when user is authenticated
   useEffect(() => {
@@ -30,6 +42,68 @@ const CalisthenicsTracker: React.FC = () => {
       loadNotesFromCloud();
     }
   }, [user]);
+
+  // Initialize with user preferences when programs and preferences are loaded
+  useEffect(() => {
+    if (programs.length > 0 && preferencesLoaded && !initialized) {
+      // Set program based on preferences or default to first program
+      const preferredProgramId = preferences.lastSelectedProgramId;
+      const preferredProgram = preferredProgramId
+        ? programs.find((p) => p.id === preferredProgramId)
+        : null;
+
+      if (preferredProgram) {
+        selectProgram(preferredProgramId!);
+      } else if (programs.length > 0) {
+        // If preferred program doesn't exist, use first available
+        selectProgram(programs[0].id);
+        updateProgram(programs[0].id);
+      }
+
+      // Set week and day from preferences
+      setSelectedWeek(preferences.lastSelectedWeek);
+      setSelectedDay(preferences.lastSelectedDay);
+
+      setInitialized(true);
+    }
+  }, [
+    programs,
+    preferencesLoaded,
+    initialized,
+    preferences,
+    selectProgram,
+    updateProgram,
+  ]);
+
+  // Update preferences when program changes (with delay to prevent loops)
+  useEffect(() => {
+    if (initialized && selectedProgram) {
+      const timeoutId = setTimeout(() => {
+        updateProgram(selectedProgram.id);
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [selectedProgram?.id, initialized]);
+
+  // Update preferences when week changes (with delay to prevent loops)
+  useEffect(() => {
+    if (initialized) {
+      const timeoutId = setTimeout(() => {
+        updateWeek(selectedWeek);
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [selectedWeek, initialized]);
+
+  // Update preferences when day changes (with delay to prevent loops)
+  useEffect(() => {
+    if (initialized) {
+      const timeoutId = setTimeout(() => {
+        updateDay(selectedDay);
+      }, 100);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [selectedDay, initialized]);
 
   const loadNotesFromCloud = async () => {
     if (!user) return;
@@ -93,16 +167,6 @@ const CalisthenicsTracker: React.FC = () => {
       ...prev,
       [key]: value,
     }));
-  };
-
-  const saveNotes = () => {
-    try {
-      localStorage.setItem("workout-notes", JSON.stringify(notes));
-      alert("Progress saved successfully! ✅");
-    } catch (error) {
-      console.error("Failed to save:", error);
-      alert("Failed to save progress");
-    }
   };
 
   const exportData = () => {
@@ -234,6 +298,18 @@ const CalisthenicsTracker: React.FC = () => {
           currentWeekData={currentWeekData}
         />
 
+        {/* Workout Timer */}
+        {currentDayData && (
+          <WorkoutTimer
+            ref={workoutTimerRef}
+            workoutData={currentDayData}
+            onStartExercise={(exerciseId) => {
+              // This callback will be triggered from ExerciseTable buttons
+              console.log("Exercise start requested:", exerciseId);
+            }}
+          />
+        )}
+
         {/* Workout Content */}
         {currentDayData && (
           <div className="bg-gray-800/50 rounded-lg p-4 mb-6 backdrop-blur">
@@ -248,6 +324,9 @@ const CalisthenicsTracker: React.FC = () => {
               selectedDay={selectedDay}
               notes={notes}
               onNoteChange={updateNote}
+              onStartExercise={(exerciseId) =>
+                workoutTimerRef.current?.startExercise(exerciseId)
+              }
             />
             <ExerciseTable
               exercises={currentDayData.strength || []}
@@ -256,6 +335,9 @@ const CalisthenicsTracker: React.FC = () => {
               selectedDay={selectedDay}
               notes={notes}
               onNoteChange={updateNote}
+              onStartExercise={(exerciseId) =>
+                workoutTimerRef.current?.startExercise(exerciseId)
+              }
             />
             <ExerciseTable
               exercises={currentDayData.core || []}
@@ -264,6 +346,9 @@ const CalisthenicsTracker: React.FC = () => {
               selectedDay={selectedDay}
               notes={notes}
               onNoteChange={updateNote}
+              onStartExercise={(exerciseId) =>
+                workoutTimerRef.current?.startExercise(exerciseId)
+              }
             />
             <ExerciseTable
               exercises={currentDayData.conditioning || []}
@@ -272,19 +357,15 @@ const CalisthenicsTracker: React.FC = () => {
               selectedDay={selectedDay}
               notes={notes}
               onNoteChange={updateNote}
+              onStartExercise={(exerciseId) =>
+                workoutTimerRef.current?.startExercise(exerciseId)
+              }
             />
           </div>
         )}
 
         {/* Action Buttons */}
         <div className="flex gap-3 justify-center flex-wrap">
-          <button
-            onClick={saveNotes}
-            className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 px-6 py-3 rounded-lg font-semibold transition-colors"
-          >
-            <Save size={20} />
-            Save Progress
-          </button>
           <button
             onClick={exportData}
             className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg font-semibold transition-colors"

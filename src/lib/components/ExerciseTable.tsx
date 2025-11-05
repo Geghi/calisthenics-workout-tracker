@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Play } from "lucide-react";
 
 interface Exercise {
   name: string;
@@ -20,6 +20,7 @@ interface ExerciseTableProps {
     exerciseId: string,
     value: string
   ) => void;
+  onStartExercise?: (exerciseId: string) => void;
 }
 
 const ExerciseTable: React.FC<ExerciseTableProps> = ({
@@ -29,8 +30,12 @@ const ExerciseTable: React.FC<ExerciseTableProps> = ({
   selectedDay,
   notes,
   onNoteChange,
+  onStartExercise,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [expandedExercises, setExpandedExercises] = useState<Set<string>>(
+    new Set(exercises.map((_, idx) => `${type}-${idx}`))
+  );
 
   if (!exercises || exercises.length === 0) return null;
 
@@ -77,66 +82,106 @@ const ExerciseTable: React.FC<ExerciseTableProps> = ({
       </button>
 
       {isExpanded && (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-800">
-                <th className="border border-gray-700 p-2 text-left text-sm">
-                  Exercise
-                </th>
-                <th className="border border-gray-700 p-2 text-center text-sm w-16">
-                  Sets
-                </th>
-                <th className="border border-gray-700 p-2 text-center text-sm w-20">
-                  Reps/Time
-                </th>
-                <th className="border border-gray-700 p-2 text-center text-sm w-20">
-                  Rest
-                </th>
-                <th className="border border-gray-700 p-2 text-left text-sm">
-                  Notes (e.g., 7-7-6)
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {exercises.map((ex, idx) => {
-                const exerciseId = `${type}-${idx}`;
-                const noteKey = `w${selectedWeek}-d${selectedDay}-${exerciseId}`;
-                return (
-                  <tr key={idx} className="hover:bg-gray-800/50">
-                    <td className="border border-gray-700 p-2 text-sm">
-                      {ex.name}
-                    </td>
-                    <td className="border border-gray-700 p-2 text-center text-sm">
-                      {ex.sets}
-                    </td>
-                    <td className="border border-gray-700 p-2 text-center text-sm">
-                      {ex.reps}
-                    </td>
-                    <td className="border border-gray-700 p-2 text-center text-sm">
-                      {ex.rest}
-                    </td>
-                    <td className="border border-gray-700 p-2">
-                      <input
-                        type="text"
-                        placeholder="e.g., 7-7-6 or 10s-8s-9s"
-                        value={notes[noteKey] || ""}
-                        onChange={(e) =>
-                          onNoteChange(
-                            selectedWeek,
-                            selectedDay,
-                            exerciseId,
-                            e.target.value
-                          )
+        <div className="space-y-3">
+          {exercises.map((ex, idx) => {
+            const exerciseId = `${type}-${idx}`;
+            const isExerciseExpanded = expandedExercises.has(exerciseId);
+
+            return (
+              <div
+                key={idx}
+                className="bg-gray-800/70 rounded-lg border border-gray-700 overflow-hidden"
+              >
+                {/* Exercise Header */}
+                <div className="p-4 border-b border-gray-700/50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <h4 className="text-lg font-semibold text-orange-400">
+                        {ex.name}
+                      </h4>
+                      {onStartExercise && (
+                        <button
+                          onClick={() => onStartExercise(exerciseId)}
+                          className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-xs font-semibold transition-colors flex items-center gap-1"
+                          title="Start exercise timer"
+                        >
+                          <Play size={12} />
+                          Start
+                        </button>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => {
+                        const newExpanded = new Set(expandedExercises);
+                        if (isExerciseExpanded) {
+                          newExpanded.delete(exerciseId);
+                        } else {
+                          newExpanded.add(exerciseId);
                         }
-                        className="w-full bg-gray-900 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none focus:border-orange-500"
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        setExpandedExercises(newExpanded);
+                      }}
+                      className="p-1 hover:bg-gray-700 rounded transition-colors"
+                      title={isExerciseExpanded ? "Collapse" : "Expand"}
+                    >
+                      {isExerciseExpanded ? (
+                        <ChevronUp size={16} className="text-gray-400" />
+                      ) : (
+                        <ChevronDown size={16} className="text-gray-400" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Individual Set Rows */}
+                {isExerciseExpanded && (
+                  <div className="border-t border-gray-700">
+                    {Array.from({ length: ex.sets }, (_, setIndex) => {
+                      const setNumber = setIndex + 1;
+                      const setNoteKey = `w${selectedWeek}-d${selectedDay}-${exerciseId}-set${setNumber}`;
+
+                      return (
+                        <div
+                          key={setIndex}
+                          className="p-3 border-b border-gray-700/50 last:border-b-0 hover:bg-gray-800/40"
+                        >
+                          {/* Set Info */}
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-sm font-medium text-gray-300">
+                              Set {setNumber}
+                            </span>
+                            <span className="text-sm text-gray-400">
+                              {ex.reps} reps
+                            </span>
+                            {setIndex < ex.sets - 1 && (
+                              <span className="text-xs text-gray-500">
+                                • Rest: {ex.rest}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Set-specific notes */}
+                          <input
+                            type="text"
+                            placeholder={`Notes for set ${setNumber}...`}
+                            value={notes[setNoteKey] || ""}
+                            onChange={(e) =>
+                              onNoteChange(
+                                selectedWeek,
+                                selectedDay,
+                                `${exerciseId}-set${setNumber}`,
+                                e.target.value
+                              )
+                            }
+                            className="w-full bg-gray-900/50 border border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
