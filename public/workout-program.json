@@ -1,0 +1,748 @@
+{
+  "program": {
+    "title": "8-Week Calisthenics Hybrid Program",
+    "subtitle": "Fat Loss • Strength • Skill Development",
+    "weeks": {
+      "1-2": {
+        "phase": "Foundation Phase",
+        "description": "Rebuild control, strengthen joints, refine form",
+        "days": {
+          "1": {
+            "name": "PUSH / HSPU",
+            "skill": [
+              {
+                "name": "Wall-Assisted HSPU Negatives",
+                "sets": 4,
+                "reps": "3 (3-4s down)",
+                "rest": "2 min"
+              },
+              {
+                "name": "Wall HS Hold",
+                "sets": 3,
+                "reps": "30-40s",
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Dips",
+                "sets": 4,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Pseudo Planche Push-Ups",
+                "sets": 3,
+                "reps": 8,
+                "rest": "90s"
+              },
+              {
+                "name": "Dumbbell Shoulder Press",
+                "sets": 3,
+                "reps": 8,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Triceps Extensions",
+                "sets": 3,
+                "reps": 10,
+                "rest": "60s"
+              }
+            ],
+            "core": [
+              {
+                "name": "L-Sit Hold",
+                "sets": 3,
+                "reps": "15s",
+                "rest": "60s"
+              },
+              {
+                "name": "Hanging Leg Raises",
+                "sets": 3,
+                "reps": 10,
+                "rest": "60s"
+              }
+            ]
+          },
+          "2": {
+            "name": "PULL / FRONT LEVER",
+            "skill": [
+              {
+                "name": "Advanced Tuck Front Lever Hold",
+                "sets": 4,
+                "reps": "8s",
+                "rest": "2 min"
+              },
+              {
+                "name": "Straddle FL Raises (band-assisted)",
+                "sets": 3,
+                "reps": 5,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Pull-Ups",
+                "sets": 4,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Front Lever Rows (rings)",
+                "sets": 3,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Australian Rows (slow)",
+                "sets": 3,
+                "reps": 10,
+                "rest": "60s"
+              },
+              {
+                "name": "Bicep Curls",
+                "sets": 3,
+                "reps": 10,
+                "rest": "60s"
+              }
+            ],
+            "core": [
+              {
+                "name": "Hollow Hold",
+                "sets": 3,
+                "reps": "20s",
+                "rest": "60s"
+              },
+              {
+                "name": "Superman Hold",
+                "sets": 3,
+                "reps": "20s",
+                "rest": "60s"
+              }
+            ]
+          },
+          "3": {
+            "name": "FULL BODY / PLANCHE",
+            "skill": [
+              {
+                "name": "Tuck Planche Hold",
+                "sets": 5,
+                "reps": "6s",
+                "rest": "2 min"
+              },
+              {
+                "name": "Planche Leans",
+                "sets": 4,
+                "reps": "10s",
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Bulgarian Split Squats",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Push-Ups (deep)",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Face Pulls",
+                "sets": 3,
+                "reps": 12,
+                "rest": "60s"
+              }
+            ],
+            "conditioning": [
+              {
+                "name": "3 Rounds: Mountain Climbers (30s) + Jump Squats (15) + Plank Shoulder Taps (30s)",
+                "sets": 3,
+                "reps": "1 round",
+                "rest": "90s"
+              }
+            ]
+          }
+        }
+      },
+      "3-4": {
+        "phase": "Volume Phase",
+        "description": "Increase time under tension (+1 rep, +2s holds)",
+        "days": {
+          "1": {
+            "name": "PUSH / HSPU",
+            "skill": [
+              {
+                "name": "HSPU Negatives",
+                "sets": 4,
+                "reps": 4,
+                "rest": "2 min"
+              },
+              {
+                "name": "Pike HSPU",
+                "sets": 3,
+                "reps": 8,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Dips",
+                "sets": 4,
+                "reps": 7,
+                "rest": "90s"
+              },
+              {
+                "name": "Pseudo Planche Push-Ups",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Dumbbell Shoulder Press",
+                "sets": 3,
+                "reps": 9,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Triceps Extensions",
+                "sets": 3,
+                "reps": 11,
+                "rest": "60s"
+              }
+            ],
+            "core": [
+              {
+                "name": "L-Sit Hold",
+                "sets": 3,
+                "reps": "17s",
+                "rest": "60s"
+              },
+              {
+                "name": "Hanging Leg Raises",
+                "sets": 3,
+                "reps": 11,
+                "rest": "60s"
+              }
+            ]
+          },
+          "2": {
+            "name": "PULL / FRONT LEVER",
+            "skill": [
+              {
+                "name": "Straddle FL Holds",
+                "sets": 4,
+                "reps": "10s",
+                "rest": "2 min"
+              },
+              {
+                "name": "Straddle FL Raises",
+                "sets": 3,
+                "reps": 6,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Pull-Ups",
+                "sets": 4,
+                "reps": 7,
+                "rest": "90s"
+              },
+              {
+                "name": "FL Rows",
+                "sets": 3,
+                "reps": 8,
+                "rest": "90s"
+              },
+              {
+                "name": "Australian Rows",
+                "sets": 3,
+                "reps": 12,
+                "rest": "60s"
+              },
+              {
+                "name": "Bicep Curls",
+                "sets": 3,
+                "reps": 11,
+                "rest": "60s"
+              }
+            ],
+            "core": [
+              {
+                "name": "Hollow Hold",
+                "sets": 3,
+                "reps": "22s",
+                "rest": "60s"
+              },
+              {
+                "name": "Superman Hold",
+                "sets": 3,
+                "reps": "22s",
+                "rest": "60s"
+              }
+            ]
+          },
+          "3": {
+            "name": "FULL BODY / PLANCHE",
+            "skill": [
+              {
+                "name": "Tuck → Advanced Tuck Planche",
+                "sets": 5,
+                "reps": "8s",
+                "rest": "2 min"
+              },
+              {
+                "name": "Planche Lean Push-Ups",
+                "sets": 3,
+                "reps": 8,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Bulgarian Split Squats",
+                "sets": 3,
+                "reps": 11,
+                "rest": "90s"
+              },
+              {
+                "name": "Front Lever Raises",
+                "sets": 3,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Face Pulls",
+                "sets": 3,
+                "reps": 15,
+                "rest": "60s"
+              }
+            ],
+            "conditioning": [
+              {
+                "name": "3 Rounds: Mountain Climbers (30s) + Jump Squats (15) + Plank Shoulder Taps (30s)",
+                "sets": 3,
+                "reps": "1 round",
+                "rest": "90s"
+              }
+            ]
+          }
+        }
+      },
+      "5-6": {
+        "phase": "Intensity Phase",
+        "description": "Increase weight (+2-3kg) & harder progressions",
+        "days": {
+          "1": {
+            "name": "PUSH / HSPU",
+            "skill": [
+              {
+                "name": "Partial Range HSPU (box)",
+                "sets": 3,
+                "reps": 3,
+                "rest": "2 min"
+              },
+              {
+                "name": "Wall HS Hold",
+                "sets": 3,
+                "reps": "45s",
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Dips (heavier)",
+                "sets": 4,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Pseudo Planche Push-Ups",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Dumbbell Shoulder Press",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Triceps Extensions",
+                "sets": 3,
+                "reps": 12,
+                "rest": "60s"
+              }
+            ],
+            "core": [
+              {
+                "name": "L-Sit Hold",
+                "sets": 3,
+                "reps": "20s",
+                "rest": "60s"
+              },
+              {
+                "name": "Hanging Leg Raises",
+                "sets": 3,
+                "reps": 12,
+                "rest": "60s"
+              }
+            ]
+          },
+          "2": {
+            "name": "PULL / FRONT LEVER",
+            "skill": [
+              {
+                "name": "Straddle Front Lever Hold",
+                "sets": 4,
+                "reps": "10s",
+                "rest": "2 min"
+              },
+              {
+                "name": "Straddle FL Raises",
+                "sets": 3,
+                "reps": 6,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Pull-Ups (heavier)",
+                "sets": 4,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "FL Rows",
+                "sets": 3,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Australian Rows",
+                "sets": 3,
+                "reps": 12,
+                "rest": "60s"
+              },
+              {
+                "name": "Bicep Curls",
+                "sets": 3,
+                "reps": 10,
+                "rest": "60s"
+              }
+            ],
+            "core": [
+              {
+                "name": "Hollow Hold",
+                "sets": 3,
+                "reps": "25s",
+                "rest": "60s"
+              },
+              {
+                "name": "Superman Hold",
+                "sets": 3,
+                "reps": "25s",
+                "rest": "60s"
+              }
+            ]
+          },
+          "3": {
+            "name": "FULL BODY / PLANCHE",
+            "skill": [
+              {
+                "name": "Planche Leans (deeper angle)",
+                "sets": 5,
+                "reps": "10s",
+                "rest": "2 min"
+              },
+              {
+                "name": "Planche Lean to Push-Up",
+                "sets": 3,
+                "reps": 5,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Bulgarian Split Squats",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Push-Ups (deep)",
+                "sets": 3,
+                "reps": 12,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Face Pulls",
+                "sets": 3,
+                "reps": 15,
+                "rest": "60s"
+              }
+            ],
+            "conditioning": [
+              {
+                "name": "3 Rounds: Mountain Climbers (30s) + Jump Squats (15) + Plank Shoulder Taps (30s)",
+                "sets": 3,
+                "reps": "1 round",
+                "rest": "90s"
+              }
+            ]
+          }
+        }
+      },
+      "7": {
+        "phase": "Peak Week",
+        "description": "Push to best holds/reps, perfect form, +2s on all holds",
+        "days": {
+          "1": {
+            "name": "PUSH / HSPU - PEAK",
+            "skill": [
+              {
+                "name": "Partial Range HSPU (box)",
+                "sets": 3,
+                "reps": 3,
+                "rest": "2 min"
+              },
+              {
+                "name": "Wall HS Hold (max time)",
+                "sets": 3,
+                "reps": "MAX",
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Dips",
+                "sets": 4,
+                "reps": 6,
+                "rest": "2 min"
+              },
+              {
+                "name": "Pseudo Planche Push-Ups",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Dumbbell Shoulder Press",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              }
+            ],
+            "core": [
+              {
+                "name": "L-Sit Hold",
+                "sets": 3,
+                "reps": "22s",
+                "rest": "60s"
+              },
+              {
+                "name": "Hanging Leg Raises",
+                "sets": 3,
+                "reps": 12,
+                "rest": "60s"
+              }
+            ]
+          },
+          "2": {
+            "name": "PULL / FRONT LEVER - PEAK",
+            "skill": [
+              {
+                "name": "Straddle Front Lever Hold (max)",
+                "sets": 4,
+                "reps": "MAX",
+                "rest": "2 min"
+              },
+              {
+                "name": "Straddle FL Raises",
+                "sets": 3,
+                "reps": 6,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Pull-Ups",
+                "sets": 4,
+                "reps": 6,
+                "rest": "2 min"
+              },
+              {
+                "name": "FL Rows",
+                "sets": 3,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Australian Rows",
+                "sets": 3,
+                "reps": 12,
+                "rest": "60s"
+              }
+            ],
+            "core": [
+              {
+                "name": "Hollow Hold",
+                "sets": 3,
+                "reps": "27s",
+                "rest": "60s"
+              },
+              {
+                "name": "Superman Hold",
+                "sets": 3,
+                "reps": "27s",
+                "rest": "60s"
+              }
+            ]
+          },
+          "3": {
+            "name": "FULL BODY / PLANCHE - PEAK",
+            "skill": [
+              {
+                "name": "Planche Hold (max)",
+                "sets": 5,
+                "reps": "MAX",
+                "rest": "2 min"
+              },
+              {
+                "name": "Planche Lean Push-Up",
+                "sets": 3,
+                "reps": 5,
+                "rest": "2 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Weighted Bulgarian Split Squats",
+                "sets": 3,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Push-Ups (deep)",
+                "sets": 3,
+                "reps": 12,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Face Pulls",
+                "sets": 3,
+                "reps": 15,
+                "rest": "60s"
+              }
+            ]
+          }
+        }
+      },
+      "8": {
+        "phase": "DELOAD & TEST",
+        "description": "Reduce volume by 40%, recover & test new baseline",
+        "days": {
+          "1": {
+            "name": "PUSH - DELOAD & TEST",
+            "skill": [
+              {
+                "name": "Wall HS Hold - TEST MAX TIME",
+                "sets": 2,
+                "reps": "MAX",
+                "rest": "3 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Max Dips Test",
+                "sets": 1,
+                "reps": "MAX",
+                "rest": "-"
+              },
+              {
+                "name": "Weighted Dips (60% volume)",
+                "sets": 2,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "Pseudo Planche Push-Ups",
+                "sets": 2,
+                "reps": 8,
+                "rest": "90s"
+              }
+            ]
+          },
+          "2": {
+            "name": "PULL - DELOAD & TEST",
+            "skill": [
+              {
+                "name": "Front Lever Hold - TEST MAX TIME",
+                "sets": 2,
+                "reps": "MAX",
+                "rest": "3 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Max Pull-Ups Test",
+                "sets": 1,
+                "reps": "MAX",
+                "rest": "-"
+              },
+              {
+                "name": "Weighted Pull-Ups (60% volume)",
+                "sets": 2,
+                "reps": 6,
+                "rest": "90s"
+              },
+              {
+                "name": "FL Rows",
+                "sets": 2,
+                "reps": 6,
+                "rest": "90s"
+              }
+            ]
+          },
+          "3": {
+            "name": "PLANCHE - DELOAD & TEST",
+            "skill": [
+              {
+                "name": "Tuck Planche Hold - TEST MAX TIME",
+                "sets": 2,
+                "reps": "MAX",
+                "rest": "3 min"
+              }
+            ],
+            "strength": [
+              {
+                "name": "Bulgarian Split Squats",
+                "sets": 2,
+                "reps": 10,
+                "rest": "90s"
+              },
+              {
+                "name": "Ring Push-Ups",
+                "sets": 2,
+                "reps": 10,
+                "rest": "90s"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "guidelines": [
+    "Warm-up 10-12 min before starting",
+    "Rest: 60-90s (hypertrophy), 2 min (strength/skill holds)",
+    "Control eccentric phase: 3-4s on negatives",
+    "Progress: Increase reps or difficulty every 2 weeks",
+    "Week 8: Reduce sets by 40% (deload & test)"
+  ]
+}
